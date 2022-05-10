@@ -5,6 +5,7 @@ import Banner from '../components/Banner'
 import Header from '../components/Header'
 import requests from '../utils/requests'
 import { Movie } from '../typings'
+import Row from '../components/Row'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -35,9 +36,19 @@ const Home = ({
       </Head>
 
       <Header />
-      <main>
+      <main className="relative pl-4 pb-24 lg:space-y-24 lg:py-16">
         <Banner netflixOriginals={netflixOriginals} />
-        <section></section>
+        <section>
+          <Row title={'Trending Now'} movies={trendingNow} />
+          <Row title={'Top Rated'} movies={topRated} />
+          <Row title={'Action Thrillers'} movies={actionMovies} />
+
+          {/* 내 리스트 컴포넌트 */}
+          <Row title={'Comedies'} movies={comedyMovies} />
+          <Row title={'Scary Movies'} movies={horrorMovies} />
+          <Row title={'Romance Movies'} movies={romanceMovies} />
+          <Row title={'Documentaries'} movies={documentaries} />
+        </section>
       </main>
     </div>
   )
@@ -45,7 +56,7 @@ const Home = ({
 
 export default Home
 
-export const getSererSideProps = async () => {
+export const getServerSideProps = async () => {
   const [
     netflixOriginals,
     trendingNow,
