@@ -7,7 +7,7 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.screenY > 0) {
+      if (window.scrollY > 0) {
         setIsScrolled(true)
       } else {
         setIsScrolled(false)
@@ -17,7 +17,7 @@ function Header() {
     window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.addEventListener('scroll', handleScroll)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
@@ -27,7 +27,7 @@ function Header() {
         <img
           className="cursor-pointer object-contain"
           src="https://rb.gy/ulxxee"
-          width={100} 
+          width={100}
           height={100}
         />
 
