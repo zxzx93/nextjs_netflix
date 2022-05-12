@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { BellIcon, SearchIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
+import useAuth from '../hooks/useAuth'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const { logOut } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,11 +34,11 @@ function Header() {
         />
 
         <ul className="hidden space-x-4 md:flex">
-          <li className="headerLink">Home</li>
-          <li className="headerLink">TV Shows</li>
-          <li className="headerLink">Movies</li>
-          <li className="headerLink">New & Popular</li>
-          <li className="headerLink">My List</li>
+          <li className="headerLink">홈</li>
+          <li className="headerLink">TV 시리즈</li>
+          <li className="headerLink">영화</li>
+          <li className="headerLink">NEW! 요즘 대세 콘텐츠</li>
+          <li className="headerLink">내가 찜한 콘텐츠</li>
         </ul>
       </div>
 
@@ -45,13 +47,14 @@ function Header() {
         <p className="hidden lg:inline">Kids</p>
         <BellIcon className=" h-6 w-6" />
 
-        <Link href="/account">
-          <img
-            className="cursor-pointer rounded"
-            src="https://rb.gy/g1pwyx"
-            alt=""
-          />
-        </Link>
+        {/* <Link href="/account"> */}
+        <img
+          className="cursor-pointer rounded"
+          src="https://rb.gy/g1pwyx"
+          alt=""
+          onClick={logOut}
+        />
+        {/* </Link> */}
       </div>
     </header>
   )
