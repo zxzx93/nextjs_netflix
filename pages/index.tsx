@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import { useRecoilValue } from 'recoil'
+import Axios from 'axios'
 import { modalState } from '../atoms/modalAtom'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
@@ -11,7 +12,7 @@ import useAuth from '../hooks/useAuth'
 import Modal from '../components/Modal'
 
 interface Props {
-  netflixOriginals: Movie[]
+   netflixOriginals: Movie[]
   trendingNow: Movie[]
   topRated: Movie[]
   actionMovies: Movie[]
@@ -81,14 +82,14 @@ export const getServerSideProps = async () => {
     romanceMovies,
     documentaries,
   ] = await Promise.all([
-    fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
-    fetch(requests.fetchTrending).then((res) => res.json()),
-    fetch(requests.fetchTopRated).then((res) => res.json()),
-    fetch(requests.fetchActionMovies).then((res) => res.json()),
-    fetch(requests.fetchComedyMovies).then((res) => res.json()),
-    fetch(requests.fetchHorrorMovies).then((res) => res.json()),
-    fetch(requests.fetchRomanceMovies).then((res) => res.json()),
-    fetch(requests.fetchDocumentaries).then((res) => res.json()),
+    Axios(requests.AxiosNetflixOriginals).then((res) => res.data),
+    Axios(requests.AxiosTrending).then((res) => res.data),
+    Axios(requests.AxiosTopRated).then((res) => res.data),
+    Axios(requests.AxiosActionMovies).then((res) => res.data),
+    Axios(requests.AxiosComedyMovies).then((res) => res.data),
+    Axios(requests.AxiosHorrorMovies).then((res) => res.data),
+    Axios(requests.AxiosRomanceMovies).then((res) => res.data),
+    Axios(requests.AxiosDocumentaries).then((res) => res.data),
   ])
 
   return {
