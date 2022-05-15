@@ -22,6 +22,7 @@ export interface Movie {
   vote_count: number
 }
 
+//Union 타입
 export interface Element {
   type:
     | 'Bloopers'
