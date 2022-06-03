@@ -66,15 +66,15 @@ const Home = ({
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:py-16">
         <Banner netflixOriginals={netflixOriginals} />
         <section className="md:space-y-24 ">
-          <Row title={'Trending Now'} movies={trendingNow} />
-          <Row title={'Top Rated'} movies={topRated} />
-          <Row title={'Action Thrillers'} movies={actionMovies} />
+          <Row title={'지금 뜨는 콘텐츠'} movies={trendingNow} />
+          <Row title={'넷플릭스 인기 콘텐츠'} movies={topRated} />
+          <Row title={'액션 & 스릴러 영화'} movies={actionMovies} />
 
           {/* 내 리스트 컴포넌트 */}
-          <Row title={'Comedies'} movies={comedyMovies} />
-          <Row title={'Scary Movies'} movies={horrorMovies} />
-          <Row title={'Romance Movies'} movies={romanceMovies} />
-          <Row title={'Documentaries'} movies={documentaries} />
+          <Row title={'코미디'} movies={comedyMovies} />
+          <Row title={'호러 영화'} movies={horrorMovies} />
+          <Row title={'로맨틱한 영화'} movies={romanceMovies} />
+          <Row title={'다큐멘터리'} movies={documentaries} />
         </section>
       </main>
 
