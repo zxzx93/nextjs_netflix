@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import Head from 'next/head'
 import { useRecoilValue } from 'recoil'
 import Axios from 'axios'
+import { getProducts, Product } from '@stripe/firestore-stripe-payments'
 import { modalState } from '../atoms/modalAtom'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
@@ -10,9 +10,12 @@ import { Movie } from '../typings'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
 import Modal from '../components/Modal'
+import Plans from '../components/Plans'
+import payments from '../lib/stripe'
+import useSubscription from '../hooks/useSubscription'
 
 interface Props {
-   netflixOriginals: Movie[]
+  netflixOriginals: Movie[]
   trendingNow: Movie[]
   topRated: Movie[]
   actionMovies: Movie[]
@@ -20,6 +23,7 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
+  products: Product[] //stripe 에서 타입 자동으로 정의해줌
 }
 
 const Home = ({
@@ -31,11 +35,21 @@ const Home = ({
   horrorMovies,
   romanceMovies,
   documentaries,
+  products,
 }: Props) => {
-  const { loading } = useAuth()
+  const { loading, user } = useAuth()
   const showModal = useRecoilValue(modalState)
+  const subScription = useSubscription(user)
 
-  if (loading) return null
+  console.log(subScription);
+  
+
+  if (loading || subScription === null) return null
+
+  //멤버쉽 구독 없을때 Plans으로 라우팅
+  if (!subScription) {
+    return <Plans products={products} />
+  }
 
   return (
     <div
@@ -72,6 +86,14 @@ const Home = ({
 export default Home
 
 export const getServerSideProps = async () => {
+  // 플랜 결제 상품 가져오기
+  const products = await getProducts(payments, {
+    activeOnly: true,
+    includePrices: true,
+  })
+    .then((res) => res)
+    .catch((err) => console.log(err.message))
+
   const [
     netflixOriginals,
     trendingNow,
@@ -102,6 +124,7 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
+      products,
     },
   }
 }
