@@ -2,22 +2,20 @@ import React, { useRef, useState } from 'react'
 import { Movie } from '../typings'
 import Thumbnail from './Thumbnail'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline'
+import { DocumentData } from 'firebase/firestore'
 
 interface Props {
   title: string
-
-  // movie: Movie | DocumentData[]
-  movies: Movie[]
+  movies: Movie[] | DocumentData[] //firestore
 }
 
 function Row({ title, movies }: Props) {
   const rowRef = useRef<HTMLDivElement>(null)
-  //
   const [isMoved, setIsMoved] = useState(false)
 
   const handleClick = (direction: string) => {
     setIsMoved(true)
-    
+
     if (rowRef.current) {
       const { scrollLeft, clientWidth } = rowRef.current
 

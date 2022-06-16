@@ -3,10 +3,10 @@ import Image from 'next/image'
 import { Movie } from '../typings'
 import { useRecoilState } from 'recoil'
 import { modalState, movieState } from '../atoms/modalAtom'
+import { DocumentData } from 'firebase/firestore'
 
 interface Props {
-  movie: Movie
-  // movie: Movie | DocumentData[]
+  movie: Movie | DocumentData //firestore
 }
 
 function Thumbnail({ movie }: Props) {
@@ -22,7 +22,7 @@ function Thumbnail({ movie }: Props) {
         }`}
         layout="fill"
         onClick={() => {
-          setCurrentMovie(movie) //배너 현재 무비 정보 들어감
+          setCurrentMovie(movie) //선택한 영상 상세정보 들어감
           setShowModal(true)
         }}
       />
