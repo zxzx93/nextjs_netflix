@@ -62,7 +62,7 @@ function Plans({ products }: Props) {
           </li>
           <li className="flex items-center gap-x-2 text-lg">
             <CheckIcon className="h-7 w-7 text-[#e50914]" />
-            당신만을 위한 추천.
+            당신만을 위한 추천 컨텐츠.
           </li>
           <li className="flex items-center gap-x-2 text-lg">
             <CheckIcon className="h-7 w-7 text-[#e50914]" />

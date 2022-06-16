@@ -25,7 +25,7 @@ function Membership() {
           className={`} h-10 w-3/5 whitespace-nowrap bg-gray-300 py-2 text-sm font-medium text-black  shadow-md hover:bg-gray-200 md:w-4/5`}
           onClick={manageSubscription}
         >
-          {isBillingLoding ? <Loader color="dark:fill-gray-300" /> : '구독'}
+          {isBillingLoding ? <Loader color="dark:fill-gray-300" /> : '구독 취소'}
         </button>
       </div>
 
