@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { BellIcon, SearchIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import useAuth from '../hooks/useAuth'
+import BasicMenu from './BasicMenu'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { logOut } = useAuth()
+  // const { logOut } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +33,9 @@ function Header() {
           width={100}
           height={100}
         />
+
+        {/* 768px 이하 일때 보여지는 메뉴 */}
+        <BasicMenu />
 
         <ul className="hidden space-x-4 md:flex">
           <li className="headerLink">홈</li>
