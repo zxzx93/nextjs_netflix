@@ -10,8 +10,8 @@ interface Props {
 }
 
 function Thumbnail({ movie }: Props) {
-  const [showModal, setShowModal] = useRecoilState(modalState)
-  const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
+  const [showModal, setShowModal] = useRecoilState(modalState) //모달 열고 닫고
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieState) //선택한 영상 상세정보 들어감
 
   return (
     <div className="relative h-28 min-w-[180px] cursor-pointer transition duration-200 ease-out md:h-36 md:min-w-[260px] md:hover:scale-105">
@@ -22,7 +22,7 @@ function Thumbnail({ movie }: Props) {
         }`}
         layout="fill"
         onClick={() => {
-          setCurrentMovie(movie) //선택한 영상 상세정보 들어감
+          setCurrentMovie(movie) 
           setShowModal(true)
         }}
       />

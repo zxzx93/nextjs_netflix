@@ -73,7 +73,7 @@ const Home = ({
           <Row title={'액션 & 스릴러 영화'} movies={actionMovies} />
 
           {/* 내 리스트 컴포넌트 */}
-          {list.length > 0 && <Row title="My List" movies={list} />}
+          {list.length > 0 && <Row title={'내 리스트'} movies={list} />}
 
           <Row title={'코미디'} movies={comedyMovies} />
           <Row title={'호러 영화'} movies={horrorMovies} />

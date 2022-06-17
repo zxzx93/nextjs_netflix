@@ -108,7 +108,9 @@ function Modal() {
       )
 
       toast(
-        `${movie?.title || movie?.original_name} 이/가 내 리스트에서 삭제 되었습니다.`,
+        `${
+          movie?.title || movie?.original_name
+        } 이/가 내 리스트에서 삭제 되었습니다.`,
         {
           duration: 7000,
           style: toastStyle,
@@ -123,7 +125,9 @@ function Modal() {
       )
 
       toast(
-        `${movie?.title || movie?.original_name} 이/가 내 리스트에서 추가 되었습니다`,
+        `${
+          movie?.title || movie?.original_name
+        } 이/가 내 리스트에서 추가 되었습니다`,
         {
           duration: 8000,
           style: toastStyle,
@@ -149,7 +153,7 @@ function Modal() {
 
         <div className="relative pt-[56.25%]">
           <ReactPlayer
-            url={`http://www.youtube.com/watch?v=${trailer}`}
+            url={`https://www.youtube.com/watch?v=${trailer}`}
             width="100%"
             height="100%"
             style={{ position: 'absolute', top: '0', left: '0' }}

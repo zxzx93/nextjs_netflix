@@ -7,7 +7,7 @@ import Table from './Table'
 import { CheckIcon } from '@heroicons/react/outline'
 import { Product } from '@stripe/firestore-stripe-payments'
 import Loader from './Loader'
-import { loadCheckOut } from '../lib/stripe'
+import { loadCheckout } from '../lib/stripe'
 
 interface Props {
   products: Product[]
@@ -22,7 +22,7 @@ function Plans({ products }: Props) {
   const subscribeToPlan = () => {
     if (!user) return
 
-    loadCheckOut(selectedPlan?.prices[0].id!)
+    loadCheckout(selectedPlan?.prices[0].id!)
     setIsBillingLoding(true)
   }
   

@@ -10,16 +10,14 @@ const payments = getStripePayments(app, {
   customersCollection: 'customers',
 })
 
-const loadCheckOut = async (priceId: string) => {
+const loadCheckout = async (priceId: string) => {
   await createCheckoutSession(payments, {
     price: priceId,
     success_url: window.location.origin,
     cancel_url: window.location.origin,
   })
-    .then(
-      (snapshot) => window.location.assign(snapshot.url) //새로운 주소 이동
-    )
-    .catch((err) => console.log(err.message))
+    .then((snapshot) => window.location.assign(snapshot.url)) //새로운 주소로 이동
+    .catch((error) => console.log(error.message))
 }
 
 /**
@@ -39,5 +37,6 @@ const goToBillingPortal = async () => {
     .then(({ data }: any) => window.location.assign(data.url))
     .catch((error) => console.log(error.message))
 }
-export { loadCheckOut, goToBillingPortal }
+
+export { loadCheckout, goToBillingPortal }
 export default payments

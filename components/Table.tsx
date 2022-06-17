@@ -60,7 +60,9 @@ function Table({ products, selectedPlan }: Props) {
         </tr>
 
         <tr className="tableRow">
-          <td className="tableDataTitle">TV, 컴퓨터, 태블릿, 휴대폰으로 시청</td>
+          <td className="tableDataTitle">
+            TV, 컴퓨터, 태블릿, 휴대폰으로 시청
+          </td>
           {products.map((product) => (
             <td
               className={`tableDataFeature ${
