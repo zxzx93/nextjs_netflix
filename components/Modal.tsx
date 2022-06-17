@@ -5,6 +5,7 @@ import ReactPlayer from 'react-player/lazy'
 import { modalState, movieState } from '../atoms/modalAtom'
 import {
   XIcon,
+  CheckIcon,
   PlusIcon,
   ThumbUpIcon,
   VolumeUpIcon,
@@ -12,7 +13,27 @@ import {
 } from '@heroicons/react/outline'
 import { Movie, Element, Genre } from '../typings'
 import { FaPlay } from 'react-icons/fa'
-import { green } from '@mui/material/colors'
+import {
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  onSnapshot,
+  setDoc,
+} from 'firebase/firestore'
+import { db } from '../firebase'
+import useAuth from '../hooks/useAuth'
+import toast, { Toaster } from 'react-hot-toast'
+
+const toastStyle = {
+  background: 'white',
+  color: 'black',
+  fontWeight: 'bold',
+  fontSize: '16px',
+  padding: '15px',
+  borderRadius: '9999px',
+  maxWidth: '1000px',
+}
 
 function Modal() {
   const [showModal, setShowModal] = useRecoilState(modalState)
@@ -20,6 +41,9 @@ function Modal() {
   const [trailer, setTrailer] = useState('') //비디오 예고편 key
   const [genres, setGenres] = useState<Genre[]>([]) //장르
   const [muted, setMuted] = useState(true) //음소거
+  const [addedToList, setAddedToList] = useState(false)
+  const { user } = useAuth()
+  const [movies, setMovies] = useState<DocumentData[] | Movie[]>([])
 
   useEffect(() => {
     if (!movie) return
@@ -54,6 +78,58 @@ function Modal() {
 
   const handleClose = () => {
     setShowModal(false)
+    setMovie(null)
+    toast.dismiss()
+  }
+
+  // 내 리스트 전체 영상 가져오기
+  useEffect(() => {
+    if (user) {
+      return onSnapshot(
+        collection(db, 'customers', user.uid, 'myList'),
+        (snapshot) => setMovies(snapshot.docs)
+      )
+    }
+  }, [db, movie?.id])
+
+  // 내 리스트에 이미 선택한 영화가 있는지 확인
+  useEffect(
+    () =>
+      setAddedToList(
+        movies.findIndex((result) => result.data().id === movie?.id) !== -1
+      ),
+    [movies]
+  )
+
+  const handleList = async () => {
+    if (addedToList) {
+      await deleteDoc(
+        doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!)
+      )
+
+      toast(
+        `${movie?.title || movie?.original_name} 이/가 내 리스트에서 삭제 되었습니다.`,
+        {
+          duration: 7000,
+          style: toastStyle,
+        }
+      )
+    } else {
+      await setDoc(
+        doc(db, 'customers', user!.uid, 'myList', movie?.id.toString()!),
+        {
+          ...movie,
+        }
+      )
+
+      toast(
+        `${movie?.title || movie?.original_name} 이/가 내 리스트에서 추가 되었습니다`,
+        {
+          duration: 8000,
+          style: toastStyle,
+        }
+      )
+    }
   }
 
   return (
@@ -63,6 +139,7 @@ function Modal() {
       className="fixex overflow-y-csroll !top-7 left-0 right-0 z-50 mx-auto w-full max-w-5xl overflow-hidden rounded-md scrollbar-hide"
     >
       <>
+        <Toaster position="bottom-center" />
         <button
           className="modalButton absolute right-5 top-5 !z-40 h-9 w-9 border-none bg-[#181818]"
           onClick={handleClose}
@@ -87,8 +164,12 @@ function Modal() {
                 재생
               </button>
 
-              <button className="modalButton">
-                <PlusIcon className="h-7 w-7" />
+              <button className="modalButton" onClick={handleList}>
+                {addedToList ? (
+                  <CheckIcon className="h-7 w-7" />
+                ) : (
+                  <PlusIcon className="h-7 w-7" />
+                )}
               </button>
               <button className="modalButton">
                 <ThumbUpIcon className="h-7 w-7" />

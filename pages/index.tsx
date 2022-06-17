@@ -2,13 +2,14 @@ import Head from 'next/head'
 import { useRecoilValue } from 'recoil'
 import Axios from 'axios'
 import { getProducts, Product } from '@stripe/firestore-stripe-payments'
-import { modalState } from '../atoms/modalAtom'
+import { modalState, movieState } from '../atoms/modalAtom'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
 import requests from '../utils/requests'
 import { Movie } from '../typings'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
+import useList from '../hooks/useList'
 import Modal from '../components/Modal'
 import Plans from '../components/Plans'
 import payments from '../lib/stripe'
@@ -40,9 +41,8 @@ const Home = ({
   const { loading, user } = useAuth()
   const showModal = useRecoilValue(modalState)
   const subScription = useSubscription(user)
-
-  console.log(subScription);
-  
+  const movie = useRecoilValue(movieState)
+  const list = useList(user?.uid)
 
   if (loading || subScription === null) return null
 
@@ -58,7 +58,9 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Netflix</title>
+        <title>
+          {movie?.title || movie?.original_name || 'Home'} - Netflix
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -71,6 +73,8 @@ const Home = ({
           <Row title={'액션 & 스릴러 영화'} movies={actionMovies} />
 
           {/* 내 리스트 컴포넌트 */}
+          {list.length > 0 && <Row title="My List" movies={list} />}
+
           <Row title={'코미디'} movies={comedyMovies} />
           <Row title={'호러 영화'} movies={horrorMovies} />
           <Row title={'로맨틱한 영화'} movies={romanceMovies} />
